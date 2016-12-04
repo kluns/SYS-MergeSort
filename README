@@ -1,0 +1,44 @@
+CSE 506 - Operating Systems: Assignment 1
+Author:  Meng-Chieh Yang
+ID:      110452591
+
+
+Files:
+./xmergesort.c			- user level program for testing
+./sys_mergesort.c		- system call of merge sort
+./Makefile 			- to produce executable .o and related files
+./install_module.sh		- to install sys_mergesort
+./Kernel.config			- baseline kernel config file that < 1000 lines
+
+
+Installation:
+1. To make life easier, I already modified install_module.sh, so that we can use simply:
+   
+   - sh install_module
+   
+   to install our system call without any manu make.  Of course, people can also use treditional way to make and insmod our
+   merge sort function.
+
+
+Usage:
+1. The basic command is:  
+    
+   - ./xmergesort [-uaitd] output input1 input2
+ 
+   The option of u, a, i, t, d are well tested and The default is -a. NOTICE: -a and -u are exculsive, so that if both these
+   two flags appear in command, if will return error without executing any mergesort. On the other hand, we accept some
+   reasonable combination such as -ud or -ai.
+
+2. The default buffer size of input and output are 4KB.
+
+
+
+Implementation:
+1. For validation, we use getname to check if the paths from command are all exist, all check if there have enough space for
+   us to create/ open files.
+
+2. For mergesort, each time we read buffer sizes of line, and than compare each line not only with lines from another file,
+   but also with the line before it, so that I can produce results with different flags like t.  In such way, we can 
+   efficiently check the validity and write file at the same time, compare to check the input first then writing, which is
+   more I/O comsuming.
+
